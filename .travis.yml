@@ -1,0 +1,38 @@
+language: php
+php:
+  - 7.3
+  - 7.4
+  - 8.0
+matrix:
+  allow_failures:
+    - php: 8.0
+env:
+  - BLUZ_MODULE=payments
+before_install:
+  - phpenv config-rm xdebug.ini
+install:
+  # Composer
+  - composer self-update
+  - composer create-project bluzphp/skeleton --stability=dev
+  # Require current module
+  - cd skeleton
+  - composer require bluzphp/module-$BLUZ_MODULE:dev-$TRAVIS_BRANCH
+before_script:
+  # Database
+  - mysql -e 'CREATE DATABASE bluz;'
+  # Migrations
+  - php vendor/bin/bluzman db:migrate
+  - php vendor/bin/bluzman db:seed:run
+script:
+  # Check code style
+  - php vendor/bin/phpcs ./application --standard=PSR12 --encoding=utf-8 --ignore=./application/_loader.php
+  # Run built-in web-server
+  - php vendor/bin/bluzman server:start --host 127.0.0.1 -b
+  # Run CodeCeption tests
+  - php vendor/bin/bluzman test module-$BLUZ_MODULE
+notifications:
+  email: false
+branches:
+  only:
+  - master
+  - develop

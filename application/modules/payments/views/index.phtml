@@ -1,0 +1,28 @@
+<?php
+/** @var \Liqpay\Request $liqpay */
+?>
+<div class="card-columns">
+  <?php foreach ([10, 20, 40, 50, 100, 200, 400, 800, 1000] as $amount) :
+      $value = __('%.2f kJ/s', round($amount / $price, 3));
+
+      $liqpay->setDescription(__('Smart Power 4U. Charge for %s', $value));
+      $liqpay->setAmount($amount);
+      ?>
+  <div class="card mb-3 bg-success">
+    <div class="card-header d-flex justify-content-between">
+      <h4 class="card-title text-light"><?= $value ?></h4>
+    </div>
+    <div class="card-body text-dark">
+      <form action="https://www.liqpay.ua/api/3/checkout" method="POST" accept-charset="utf-8">
+        <input type="hidden" name="data" value="<?=$liqpay->data()?>" />
+        <input type="hidden" name="signature" value="<?=$liqpay->signature()?>" />
+        <button type="submit" class="btn btn-light"><?=__('%d ₴', $amount)?></button>
+      </form>
+    </div>
+  </div>
+  <?php endforeach; ?>
+</div>
+<div class="text-center">
+  <img src="/img/mastercard.png" alt="MasterCard" width="160px"/>
+  <img src="/img/visa.png" alt="Visa" width="160px"/>
+</div>

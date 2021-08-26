@@ -1,0 +1,28 @@
+<div class="card bg-warning">
+  <div class="card-header">
+    <h3 class="d-flex w-100 justify-content-between">
+      <?=__('Payment')?>
+    </h3>
+  </div>
+  <div class="card-body text-dark">
+    <ul class="list-group">
+      <li class="list-group-item d-flex w-100 justify-content-between">
+        <span><?=__('ID')?> <span class="badge badge-pill badge-light" data-toggle="tooltip" title="<?=__('Payment ID in your bank')?>">?</span></span>
+        <strong><?=$payment->foreignId?></strong>
+      </li>
+      <li class="list-group-item d-flex w-100 justify-content-between">
+        <span><?=__('Amount')?></span>
+        <strong><?=$payment->amount .' '. $payment->currency?></strong>
+      </li>
+      <li class="list-group-item d-flex w-100 justify-content-between">
+        <span><?=__('Date')?></span>
+        <strong><?=$payment->created?></strong>
+      </li>
+    </ul>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

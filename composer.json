@@ -1,0 +1,9 @@
+{
+  "name": "bluzphp/module-payments",
+  "type": "bluz-module",
+  "license": "MIT",
+  "description": "bluz payments module",
+  "require": {
+    "bluzphp/composer-plugin": "~2.4"
+  }
+}
