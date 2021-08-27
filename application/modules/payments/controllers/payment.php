@@ -10,6 +10,8 @@
 namespace Application;
 
 use Bluz\Controller\Controller;
+use Bluz\Db\Exception\RelationNotFoundException;
+use Bluz\Db\Exception\TableNotFoundException;
 use Bluz\Http\Exception\ForbiddenException;
 use Bluz\Http\Exception\NotFoundException;
 use Bluz\Proxy\Layout;
@@ -22,18 +24,13 @@ use Bluz\Proxy\Layout;
  * @return array
  * @throws ForbiddenException
  * @throws NotFoundException
- * @throws \Bluz\Db\Exception\RelationNotFoundException
- * @throws \Bluz\Db\Exception\TableNotFoundException
+ * @throws RelationNotFoundException
+ * @throws TableNotFoundException
  */
 return function ($id = null) {
     /**
      * @var Controller $this
      */
-    Layout::breadCrumbs(
-        [
-            __('Payments')
-        ]
-    );
     $payment = Payments\Table::findRow($id);
 
     if (!$payment) {

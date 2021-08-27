@@ -12,6 +12,7 @@ namespace Application;
 
 use Bluz\Application\Exception\ApplicationException;
 use Bluz\Controller\Controller;
+use Bluz\Db\Exception\DbException;
 use Bluz\Proxy\Config;
 use Bluz\Proxy\Logger;
 use Bluz\Proxy\Router;
@@ -21,6 +22,8 @@ use Bluz\Proxy\Router;
  * @param $signature
  *
  * @return void
+ * @throws ApplicationException
+ * @throws DbException
  */
 return function ($data, $signature) {
     /**
@@ -100,6 +103,6 @@ return function ($data, $signature) {
             return;
         }
 
-        Wallets\Table::addLiqpayPayment((int) $userId, $data);
+        Payments\Service::addLiqpayPayment((int) $userId, $data);
     }
 };

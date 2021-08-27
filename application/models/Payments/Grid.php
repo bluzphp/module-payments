@@ -6,6 +6,7 @@
 
 namespace Application\Payments;
 
+use Application\Wallets\Table;
 use Bluz\Grid\Source\SelectSource;
 
 /**
@@ -32,9 +33,18 @@ class Grid extends \Bluz\Grid\Grid
         // Current table as source of grid
         $adapter = new SelectSource();
         $adapter->setSource(Table::select());
+        $adapter->setSource(
+            Table::select()
+                ->addSelect('users.login as login')
+                ->join('payments', 'transactions', 'transactions', 'transactions.id = payments.transactionId')
+                ->join('transactions', 'users', 'users', 'users.id = transactions.userId')
+        );
 
+        $this->addAlias('users.id', 'user');
+        $this->addAlias('users.login', 'login');
         $this->setAdapter($adapter);
         $this->setDefaultLimit(25);
-        $this->setAllowOrders([]);
+        $this->setAllowFilters(['amount', 'currency', 'provider', 'users.id', 'users.login', 'created']);
+        $this->setAllowOrders(['id', 'amount', 'currency', 'provider', 'users.id', 'users.login', 'created']);
     }
 }
