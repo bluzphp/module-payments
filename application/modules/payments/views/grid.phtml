@@ -1,13 +1,14 @@
 <?php
-/**
- * @var \Application\Payments\Grid $grid
- */
-if (!$grid) return;
+
+/** @var \Bluz\View\View $this */
+/** @var \Bluz\Grid\Grid $grid */
+if (!$grid) {
+    return;
+}
 $uid = $grid->getUid();
 ?>
-<script>
-  // use data-spy="grid" for use AJAX for reload grid
-  require(['bluz.grid']);
+<script type="module">
+  import '<?=$this->baseUrl('/js/bluz.grid.js');?>';
 </script>
 
 <div class="clearfix" data-spy="grid" data-grid="<?=$uid?>">
@@ -18,7 +19,7 @@ $uid = $grid->getUid();
             <?= __('All') ?>
         </a>
         <a href="<?= $grid->filter('amount', 'eq', 0, false) ?>"
-           class="ms-2 btn <?= (0 === $grid->getFilter('amount', 'eq') ? 'btn-info' : 'btn-secondary') ?>" data-ajax>
+           class="ms-1 btn <?= (0 === $grid->getFilter('amount', 'eq') ? 'btn-info' : 'btn-secondary') ?>" data-ajax>
             <?= __('Zero') ?>
         </a>
     </nav>
@@ -34,8 +35,9 @@ $uid = $grid->getUid();
         <thead>
             <tr>
                 <th width="60px" class="text-center"><a href="<?= $grid->order('id') ?: '#' ?>"><?= __('Id') ?></a></th>
-                <th width="80px"><a href="<?= $grid->order('currency') ?>"><?=__('Currency')?></a></th><th width="120px"><a href="<?= $grid->order('amount') ?>"><?=__('Amount')?></a></th>
-                <th width="120px"><a href="<?= $grid->order('provider') ?>"><?=__('Provider')?></a></th>
+                <th width="80px" ><a href="<?=$grid->order('currency') ?>"><?=__('Currency')?></a></th>
+                <th width="120px"><a href="<?=$grid->order('amount') ?>"><?=__('Amount')?></a></th>
+                <th width="120px"><a href="<?=$grid->order('provider') ?>"><?=__('Provider')?></a></th>
                 <th width="200px"><a href="<?=$grid->order('transaction')?>"><?=__('Transaction')?></a></th>
                 <th width="200px"><a href="<?=$grid->order('created')?>"><?=__('Created')?></a></th>
                 <th></th>

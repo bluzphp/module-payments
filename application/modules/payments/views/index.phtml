@@ -1,17 +1,16 @@
 <?php
 
-/**
- * @var \Application\Payments\Grid $grid
- */
+/** @var \Bluz\View\View $this */
+/** @var \Bluz\Grid\Grid $grid */
 if (!$grid) {
     return;
 }
 $uid = $grid->getUid();
 ?>
-<script>
-  // use data-spy="grid" for use AJAX for reload grid
-  require(['bluz.grid'])
+<script type="module">
+  import '<?=$this->baseUrl('/js/bluz.grid.js');?>';
 </script>
+
 <div class="card text-center">
     <?php
     require_once __DIR__ . '/../../users/views/partial/card-header.phtml' ?>
