@@ -1,28 +1,98 @@
 <?php
-/** @var \Liqpay\Request $liqpay */
-?>
-<div class="card-columns">
-  <?php foreach ([10, 20, 40, 50, 100, 200, 400, 800, 1000] as $amount) :
-      $value = __('%.2f kJ/s', round($amount / $price, 3));
 
-      $liqpay->setDescription(__('Smart Power 4U. Charge for %s', $value));
-      $liqpay->setAmount($amount);
-      ?>
-  <div class="card mb-3 bg-success">
-    <div class="card-header d-flex justify-content-between">
-      <h4 class="card-title text-light"><?= $value ?></h4>
+/**
+ * @var \Application\Payments\Grid $grid
+ */
+if (!$grid) {
+    return;
+}
+$uid = $grid->getUid();
+?>
+<script>
+  // use data-spy="grid" for use AJAX for reload grid
+  require(['bluz.grid'])
+</script>
+<div class="card text-center">
+    <?php
+    require_once __DIR__ . '/../../users/views/partial/card-header.phtml' ?>
+    <div class="card-body">
+        <h4 class="card-title"><?= __('Payments') ?></h4>
+        <div class="card center">
+            <div class="card-body">
+
+                <div class="clearfix" data-spy="grid" data-grid="<?= $uid ?>">
+
+                    <nav class="navbar navbar-light bg-light justify-content-start">
+                        <a href="<?= $grid->filter('amount', 'eq', '', true) ?>"
+                           class="btn <?= (null === $grid->getFilter('amount', 'eq') ? 'btn-info' : 'btn-secondary') ?>"
+                           data-ajax>
+                            <?= __('All') ?>
+                        </a>
+                        <a href="<?= $grid->filter('amount', 'eq', 0, false) ?>"
+                           class="ms-2 btn <?= (0 === $grid->getFilter(
+                               'amount',
+                               'eq'
+                           ) ? 'btn-info' : 'btn-secondary') ?>" data-ajax>
+                            <?= __('Zero') ?>
+                        </a>
+                    </nav>
+
+                    <hr/>
+
+                    <div class="d-none d-md-block">
+                        <?= $this->partial('grid/total.phtml', ['grid' => $grid]) ?>
+                        <?= $this->partial('grid/limit.phtml', ['grid' => $grid]) ?>
+                    </div>
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th width="60px" class="text-center"><a href="<?= $grid->order('id') ?: '#' ?>"><?= __(
+                                        'Id'
+                                    ) ?></a></th>
+                            <th width="80px"><a href="<?= $grid->order('currency') ?>"><?= __('Currency') ?></a></th>
+                            <th width="120px"><a href="<?= $grid->order('amount') ?>"><?= __('Amount') ?></a></th>
+                            <th width="120px"><a href="<?= $grid->order('provider') ?>"><?= __('Provider') ?></a></th>
+                            <th width="200px"><?= __('Transaction') ?></th>
+                            <th width="200px"><a href="<?= $grid->order('created') ?>"><?= __('Created') ?></a></th>
+                            <th></th>
+                            <!-- Place your column headers here, for generate link for order use method $grid->order('column name') -->
+                            <th width="72px"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        foreach ($grid->getData() as $i => $row) : ?>
+                            <tr>
+                                <td><?= $i ?></td>
+                                <td><?= $row->currency ?></td>
+                                <td><?= $row->amount ?></td>
+                                <td><?= $row->provider ?></td>
+                                <td><?= $row->transactionId ?></td>
+                                <td><?= $row->created ?></td>
+                                <td></td>
+                                <!-- Place your content her, use $row['column name'] -->
+                                <td class="controls">
+                                    <a href="#" class="btn btn-primary" data-ajax-dialog data-ajax-method="get">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger" data-confirm data-ajax data-ajax-method="delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php
+                        endforeach; ?>
+                        </tbody>
+                    </table>
+
+                    <?= $this->partial('grid/empty-rows.phtml', ['grid' => $grid]) ?>
+                    <?= $this->partial('grid/pagination.phtml', ['grid' => $grid]) ?>
+                    <?= $this->partial('grid/total.phtml', ['grid' => $grid]) ?>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="card-body text-dark">
-      <form action="https://www.liqpay.ua/api/3/checkout" method="POST" accept-charset="utf-8">
-        <input type="hidden" name="data" value="<?=$liqpay->data()?>" />
-        <input type="hidden" name="signature" value="<?=$liqpay->signature()?>" />
-        <button type="submit" class="btn btn-light"><?=__('%d ₴', $amount)?></button>
-      </form>
-    </div>
-  </div>
-  <?php endforeach; ?>
-</div>
-<div class="text-center">
-  <img src="/img/mastercard.png" alt="MasterCard" width="160px"/>
-  <img src="/img/visa.png" alt="Visa" width="160px"/>
 </div>

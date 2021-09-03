@@ -20,10 +20,4 @@ return function () {
     /**
      * @var Controller $this
      */
-    Layout::breadCrumbs(
-        [
-            Layout::ahref('Cabinet', ['cabinet', 'index']),
-            __('Thank you')
-        ]
-    );
 };

@@ -18,7 +18,7 @@ use Bluz\Proxy\Layout;
 /**
  * @privilege Management
  *
- * @return mixed
+ * @return void
  */
 return function () {
     /**

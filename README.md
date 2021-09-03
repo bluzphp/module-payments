@@ -12,10 +12,14 @@
 [![License](https://img.shields.io/packagist/l/bluzphp/module-payments.svg?style=flat)](https://packagist.org/packages/bluzphp/module-payments)
 
 ## Usage
+### Requirements
+Module Wallet is required.
+
 ### Install module
 To install the module run the command:
 
 ```bash
+php ./vendor/bin/bluzman module:install wallet
 php ./vendor/bin/bluzman module:install payments
 php ./vendor/bin/bluzman db:migrate
 ```
