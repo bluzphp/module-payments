@@ -6,7 +6,6 @@
 
 namespace Application\Payments;
 
-use Application\Wallets\Table;
 use Bluz\Grid\Source\SelectSource;
 
 /**
