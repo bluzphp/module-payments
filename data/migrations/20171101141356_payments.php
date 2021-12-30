@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Phinx\Migration\AbstractMigration;
 
-class Payments extends AbstractMigration
+final class Payments extends AbstractMigration
 {
     /**
      * Change Method.
